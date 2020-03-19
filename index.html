@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html style="padding: 0; margin: 0;" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/util.css">
+    <title>Document</title>
+</head>
+
+<body style="padding: 0; margin: 0;" onload="init()">
+    <img style="position: absolute; z-index:-1; width: 100%; height: 95%; margin-top: -20px" src="img/background.jpg" alt="">
+
+    <div class="dropdown">
+        <button class="dropbtn">Best Score</button>
+        <div class="dropdown-content">
+            <p class="bestTime"></p>
+
+
+        </div>
+        <div class="navbar">
+            <a class="navstyle timer">Time: 0s</a>
+            <a class="navstyle lives">Lifes:</a>
+            <a class="navstyle hints">Hints:</a>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="content">
+
+        <h1 class="header">Mine </br> Sweeper</h1>
+        <div class="smileyDiv">
+            <img onmouseover="clickHover()" onclick="restart()" class="cool smiley hide" src="img/Study.png">
+        </div>
+        <div class="hint">
+
+            <a onmouseover="clickHover()" onclick="setHintModeOn()" class="button2 hide">Hint?</a>
+
+        </div>
+        <div class="modal">
+            <div class="modal-content">
+                <p class="textmodal win">You lose :( </br>Try Again!</p>
+                <p class="textmodal1 score"></p>
+            </div>
+
+        </div>
+
+        <button onmouseover="clickHover()" class="btn" onclick="toggleGame(this)">Start</button>
+
+        <div class="easy hide">
+            <button onmouseover="clickHover()" class="btn pad" onclick="setDifficulty(4 ,2)">Easy</button>
+            <button onmouseover="clickHover()" class="btn pad" onclick="setDifficulty(8 , 12)">Medium</button>
+            <button onmouseover="clickHover()" class="btn pad" onclick="setDifficulty(12 ,30)">Hard</button>
+        </div>
+
+        <table oncontextmenu="return false;" class="table center hide" border="10" cellpadding="1">
+            <tbody class="board">
+
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/util2.js"></script>
+</body>
+
+</html>
