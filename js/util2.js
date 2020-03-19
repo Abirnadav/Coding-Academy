@@ -26,19 +26,13 @@ window.onclick = function(event) {
     }
 }
 
-
-
 /// Local Storage /// Its UI isnt at is best..
 // Store Best Score // Currently every last score :D
 function storeBestPlayerScore() {
     localStorage.setItem("time", gGame.time);
     localStorage.setItem("lives", gGame.lives);
     localStorage.setItem("hints", gGame.hints);
-
-
 }
-
-
 // Get best time and Render
 window.onload = getBestTime()
 
