@@ -36,6 +36,7 @@ function toggleDiff() {
 }
 
 function restart() {
+
     click.play()
     toggleBtn()
     toggleTable()
@@ -53,6 +54,8 @@ function restart() {
         lives: 3,
         hints: 3,
         hintMode: false,
+        expandSecond: 0,
+        over: false,
     }
     init()
 }
@@ -101,7 +104,8 @@ function toggleGame(elBtn) {
     elDiff.classList.remove('hide')
 }
 // Set Difficulty
-function setDifficulty(size, mines) {
+function setDifficulty(size, mines, expand) {
+    gGame.expandSecond = expand
     click.play()
     gMinesCount = mines
     gBoardSize = size
@@ -146,6 +150,7 @@ function gameOver() {
         showMinesGameOver()
         clearInterval(gTimer)
         showModal(0)
+        gGame.over = true;
     }
 }
 // Hint mode ON 
