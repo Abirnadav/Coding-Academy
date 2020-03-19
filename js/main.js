@@ -44,8 +44,10 @@ var gGame = {
     shownCount: 0,
     markedCount: 0,
     lives: 3,
-    hints: 10,
+    hints: 3,
     hintMode: false,
+    expandSecond: 0,
+    over: false,
 }
 
 function gameWon() {
@@ -54,6 +56,7 @@ function gameWon() {
     showModal(1)
     smileyWin()
     win.play()
+    gGame.over = true;
 }
 
 //Check If Flag = total Mines and IF open cells = total 
@@ -136,11 +139,10 @@ function scanBoardRenderNegMineSum() {
     for (var i = 0; i < gBoardSize; i++) {
         for (var j = 0; j < gBoardSize; j++) {
             if (gBoard[i][j].type === MINE) continue;
-            if (gBoard[i][j].type === EMPTYDONE) continue;
             var currNeighborsSum = countNeighborsMines(i, j, gBoard)
             value = numSumToValue(currNeighborsSum)
             gBoard[i][j].type = value;
-            if (gBoard[i][j].show) {
+            if (gBoard[i][j].show === true) {
                 renderCell(i, j, value)
             }
         }
@@ -194,7 +196,7 @@ function hintNeighborsCell(cellI, cellJ, mat) {
             if (i === cellI && j === cellJ) continue;
             if (j < 0 || j >= mat[i].length) continue;
             if (mat[i][j].show === true) continue;
-            mat[i][j].show = true;
+            gBoard[i][j].show = true;
             var clickedCellValue = gBoard[cellI][cellJ].type
             var value = mat[i][j].type
             renderCell(i, j, value)
@@ -207,6 +209,7 @@ function hintNeighborsCell(cellI, cellJ, mat) {
 // Cell Click : gets a cell Location and calls to action
 function cellClicked(elCell, cellI, cellJ, isFlagClick) {
     click.play()
+    if (gGame.over === true) return;
     if (gGame.hintMode === true) {
         hintNeighborsCell(cellI, cellJ, gBoard)
         gGame.hintMode = false;
@@ -250,17 +253,17 @@ function cellClicked(elCell, cellI, cellJ, isFlagClick) {
     if (gBoard[cellI][cellJ].type !== MINE) {
         var currNeighborsSum = countNeighborsMines(cellI, cellJ, gBoard)
         if (currNeighborsSum > 0) {
-            gGame.shownCount++
-                gBoard[cellI][cellJ].type = numSumToValue(currNeighborsSum)
+            gGame.shownCount++;
+            gBoard[cellI][cellJ].type = numSumToValue(currNeighborsSum)
             gBoard[cellI][cellJ].show = true;
             elCell.innerHTML = numSumToValue(currNeighborsSum)
                 // If no mines Around me
         } else if (currNeighborsSum === 0) {
-            gGame.shownCount++
-                gBoard[cellI][cellJ].show = true;
+            gGame.shownCount++;
+            gBoard[cellI][cellJ].show = true;
             gBoard[cellI][cellJ].type = EMPTYDONE; //Update the model: TYPE + SHOW
             elCell.innerHTML = EMPTYDONE //Update DOM
-            showNeighborsCell(cellI, cellJ, gBoard, 0)
+            showNeighborsCell(cellI, cellJ, gBoard, gGame.expandSecond)
         }
     }
     gameStartHelper()
@@ -271,10 +274,10 @@ function gameStartHelper() {
     // Put Mines , Set Game ON  , Start time count
     if (gGame.isOn === false) {
         shuffleMines()
+        scanBoardRenderNegMineSum()
     }
     timeCount() // Im Checked inside :)
     gGame.isOn = true;
-    scanBoardRenderNegMineSum()
 }
 
 // Show Neighbors of given cell if They are in standard 
@@ -291,15 +294,21 @@ function showNeighborsCell(cellI, cellJ, mat, dontShowNextNeg) {
             if (mat[i][j].type !== EMPTY) continue;
             // Check If qualifies for another Expansion
             var currNeighborsSum = countNeighborsMines(i, j, gBoard)
+            var value = numSumToValue(currNeighborsSum)
             if (currNeighborsSum === 0) {
+                gBoard[cellI][cellJ].show = true;
+                gBoard[cellI][cellJ].type = value
+                gGame.shownCount++;
                 // Shows next cells Values if its Zero paramter 1 indicates if its first cell or second cell
                 if (dontShowNextNeg === 0) {
                     showNeighborsCell(i, j, mat, 1) // paramter 1  Indicates if its first cell clicked  or second cell
                 }
             }
-            gGame.shownCount++
-                mat[i][j].show = true;
-            renderCell(i, j, EMPTYDONE)
+            gGame.shownCount++;
+            gBoard[cellI][cellJ].show = true;
+            gBoard[cellI][cellJ].type = value
+
+            renderCell(i, j, value)
         }
     }
 }
