@@ -283,7 +283,8 @@ function uploadImg(elForm, ev) {
 }
 
 function shareWhatsApp(elForm, ev) {
-    ev.preventDefault();
+    ev.preventDefault()
+    onToggleModal('modal-share')
 
     function onSuccess(uploadedImgUrl) {
         document.getElementById('imgData').value = gCanvas.toDataURL("image/jpeg");
@@ -437,6 +438,6 @@ function dragSticker(e, id) {
 }
 
 function onShare() {
-    document.getElementById('facebook').click()
     onToggleModal('modal-share')
+        // document.getElementById('facebook').onsubmit()
 }

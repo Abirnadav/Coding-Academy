@@ -599,15 +599,31 @@
         }
         
         .modal-share {
-            position: absolute;
             z-index: 3;
-            top: 40%;
-            right: 33%;
             opacity: 1;
-            width: 30vw;
-            height: 35vh;
             border-radius: 10px;
             background-color: lightblue;
+        }
+        
+        @media only screen and (max-width: 750px) {
+            .modal-share {
+                top: 40vh;
+                right: 33%;
+                width: 40vw;
+                height: 35vh;
+                position: fixed;
+                font-size: 10px;
+            }
+        }
+        
+        @media only screen and (min-width: 750px) {
+            .modal-share {
+                top: 40%;
+                right: 33%;
+                width: 30vw;
+                height: 35vh;
+                position: absolute;
+            }
         }
         
         .share-btn {

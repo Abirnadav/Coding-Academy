@@ -335,6 +335,7 @@ function loadFromStorage(key) {
 }
 
 function downloadImg(elLink) {
+    onToggleModal('modal-share')
     var imgContent = gCanvas.toDataURL('image/jpeg');
     elLink.href = imgContent
 }
